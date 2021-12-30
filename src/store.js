@@ -1,6 +1,7 @@
 import axios from 'axios';
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware } from 'redux';
+import loggingMiddleware from 'redux-logger';
 const faker = require('faker');
 
 //action constants
@@ -52,10 +53,7 @@ const getMovies = () => {
 
 const newMovie = () => {
   return async(dispatch) => {
-    const movie = {
-      title: faker.company.catchPhrase()
-    };
-    await axios.post('/api', movie);
+    const movie = (await axios.post('/api', { title: faker.company.catchPhrase() })).data;
     dispatch(_newMovie(movie));
   };
 };
@@ -106,7 +104,7 @@ const reducer = (state=[], action) => {
 };
 
 //store
-const store = createStore(reducer, applyMiddleware(thunk));
+const store = createStore(reducer, applyMiddleware(thunk, loggingMiddleware));
 
 export default store;
 export { getMovies, newMovie, changeRating, deleteMovie };

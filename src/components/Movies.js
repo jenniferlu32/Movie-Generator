@@ -11,7 +11,12 @@ export default class Movies extends React.Component {
       <div>
         <ul>
         {
-          movies && movies.sort((movie1, movie2) => movie1.title.localeCompare(movie2.title) )
+          movies && movies.sort((movie1, movie2) => {
+            if (movie1.numOfStars === movie2.numOfStars) {
+              return movie1.title.localeCompare(movie2.title)
+            }
+            return movie1.numOfStars > movie2.numOfStars ? -1 : 1
+          } )
           .map(movie => {
             return ([
               <li key={movie.id+'title'}>{movie.title} ({movie.numOfStars})</li>,
