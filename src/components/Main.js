@@ -17,14 +17,22 @@ class Main extends React.Component {
   }
 
   render() {
+    const { movies, newMovie, changeRating, deleteMovie } = this.props;
+    const numOfMovies = movies && movies.length;
+    const sumOfRatings = movies && movies.reduce((acc, movie) => {
+      acc += movie.numOfStars;
+      return acc;
+    }, 0);
+    const ratingAvg = Math.round((sumOfRatings/numOfMovies)*100)/100;
     return (
       <div>
-        <h1>Acme Movie Generator</h1>
-        <GenerateButton newMovie={this.props.newMovie}/>
+        <h1>Acme Movie Generator ({numOfMovies})</h1>
+        <p>The average movie rating is {ratingAvg}</p>
+        <GenerateButton newMovie={newMovie}/>
         <Movies
-        movies={this.props.movies}
-        changeRating={this.props.changeRating}
-        deleteMovie={this.props.deleteMovie}
+        movies={movies}
+        changeRating={changeRating}
+        deleteMovie={deleteMovie}
         />
       </div>
     )

@@ -74,8 +74,13 @@ const changeRating = (selectedMovie, change) => {
 
 const deleteMovie = (movieId) => {
   return async(dispatch) => {
-    await axios.delete(`/api/${movieId}`);
-    dispatch(_deleteMovie(movieId));
+    try {
+      console.log(`api/${movieId}`);
+      dispatch(_deleteMovie(movieId));
+      await axios.delete(`api/${movieId}`);
+    } catch(err) {
+      console.log(err);
+    }
   };
 };
 
